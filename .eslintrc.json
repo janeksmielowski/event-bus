@@ -1,0 +1,25 @@
+{
+    "root": true,
+    "ignorePatterns": [
+      "dist/*",
+      "node_modules/*",
+      "jest.config.js",
+      "webpack.config.js"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "react",
+      "prettier"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ],
+    "rules": {
+        "@typescript-eslint/ban-ts-comment": "off",
+        "prettier/prettier": ["error"]
+    }
+  }
