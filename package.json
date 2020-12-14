@@ -1,16 +1,12 @@
 {
-  "name": "react-ts-library",
-  "description": "React Typescript library template, with Babel, Webpack and ESLint configuration",
+  "name": "@jeyz/event-bus",
+  "description": "React Event Bus library for post messaging in JS/TS",
   "license": "MIT",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "author": "janeksmielowski",
-  "repository": "https://github.com/janeksmielowski/react-ts-library",
+  "repository": "https://github.com/janeksmielowski/event-bus",
   "main": "dist/index.js",
-  "peerDependencies": {
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
-  },
   "devDependencies": {
     "@babel/cli": "7.12.8",
     "@babel/core": "7.12.9",
@@ -22,10 +18,7 @@
     "@babel/preset-typescript": "7.12.7",
     "@testing-library/jest-dom": "5.11.6",
     "@testing-library/react": "11.2.2",
-    "@types/jest": "26.0.15",
     "@types/node": "12.0.0",
-    "@types/react": "16.9.53",
-    "@types/react-dom": "16.9.8",
     "@typescript-eslint/eslint-plugin": "4.8.2",
     "@typescript-eslint/parser": "4.8.2",
     "babel-loader": "8.2.2",
@@ -35,9 +28,7 @@
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-react": "7.21.5",
     "eslint-webpack-plugin": "2.4.0",
-    "jest": "26.6.3",
     "prettier": "2.2.1",
-    "ts-jest": "26.4.4",
     "ts-loader": "8.0.12",
     "typescript": "4.1.2",
     "webpack": "5.9.0",
@@ -46,8 +37,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
-    "lint:fix": "yarn lint --fix",
-    "test": "jest"
+    "lint:fix": "yarn lint --fix"
   },
   "eslintConfig": {
     "extends": [

@@ -10,7 +10,7 @@ module.exports = function(env, argv) {
         entry: path.resolve(__dirname, 'src/index.tsx'),
         output: {
             filename: 'index.js',
-            library: '$',
+            library: 'JeyzEventBus',
             libraryTarget: 'umd',
             path: path.resolve(__dirname, 'dist'),
         },
@@ -25,10 +25,6 @@ module.exports = function(env, argv) {
             ]
         },
         resolve: {
-            alias: {
-                '@root': path.resolve(__dirname, 'src'),
-                'react': path.resolve(__dirname, 'node_modules/react'),
-            },
             extensions: ['.js', '.jsx', '.ts', '.tsx']
         },
         plugins: [

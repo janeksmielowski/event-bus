@@ -1,1 +1,2 @@
-export { default as useTemplate } from './useTemplate';
+import useEventBus from './useEventBus';
+export default useEventBus;

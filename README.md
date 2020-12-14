@@ -1,31 +1,85 @@
-# React Typescript Library Template
+# React Event Bus hook
 
-This project contains a basic [React](https://github.com/facebook/react) library template configuration with the following extensions:
-- [TypeScript](https://github.com/microsoft/TypeScript)
-- [Webpack](https://github.com/webpack/webpack)
-- [Babel](https://github.com/babel/babel)
-- [ESLint](https://github.com/eslint/eslint)
-- [Prettier](https://github.com/prettier/prettier)
-- [Jest](https://github.com/facebook/jest)
+This library provides easy-to-use React hook, for dispatching messages, via JavaScript `postMessage` function.
+It is implemented using event bus design pattern, which is based on publish/subscription model.
 
-## Available Scripts
+## Basic usage
 
-In the project directory, you can run:
+1. Create a file for event bus message types (skip if you're not using TypeScript):
 
-### `yarn test`
+```ts
+export interface LoaderVisibilityMessage {
+    visible: boolean;
+}
 
-Launches the test runner in the interactive watch mode.
+// ... more message structures here
 
-### `yarn build`
+export interface EventBusMessages {
+    LoaderVisibility: LoaderVisibilityMessage;
+    // ... rest of messages here
+}
+```
+Let's pretend you have some SPA application, that will show some microservice in a frame. For better user experience, you would like to show some loader on it, before the service will finish loading.
 
-Builds the app for production to the `dist` folder.\
+For this reason, you will need to create `LoaderVisibilityMessage`, that will carry loader visibility state. Finally, you put all message structures, that your app will use, into a single `EventBusMessages` interface.
 
-Your library is ready to be deployed!
+2. Subscribe for a topic in your <i>subscriber</i> component:
 
-## Learn More
+```ts
+import { EventBusMessages } from 'EventBus.types.ts';
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+const SubscriberComponent: FunctionComponent = () => {
+    const eventBus = useEventBus<EventBusMessages>();
+    const [loaderVisible, setLoaderVisible] = useState(true);
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    useEffect(() => {
+        const loaderListener = eventBus.subscribe('LoaderVisibility', handler);
+        return () => {
+            loaderListener.unsubscribe();
+        };
+    }, []);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    const handler = (message: LoaderVisibilityMessage) => {
+        setLoaderVisible(message.visible);
+    };
+
+    return <div>{loaderVisible && 'Loading...'}</div>;
+}
+```
+
+This will be the code for your SPA application. The subscriber will 'listen' to any message with topic `LoaderVisibility`. When the message comes, the event bus will fire `handler` function and pass incoming message payload.
+
+<b>Important:</b> Always remember to unsubscribe from the event. Event bus works with listeners, so you wouldn't like to have any 'zombie' listeners in your application.
+
+2. Publish message from your <i>publisher</i> component:
+
+```ts
+import { EventBusMessages } from 'EventBus.types.ts';
+
+const PublisherComponent: FunctionComponent = () => {
+    const eventBus = useEventBus<EventBusMessages>();
+
+    useEffect(() => {
+        eventBus.publish({
+            topic: 'LoaderVisibility',
+            payload: { visible: false }
+        });
+        return () => {
+            eventBus.publish({
+                topic: 'LoaderVisibility',
+                payload: { visible: true }
+            });
+        };
+    }, []);
+
+    return <div>Hello from microservice!</div>;
+}
+```
+
+Once the microservice application renders, it will automatically publish message indicating, that it doesn't need loader to be visible.
+
+<b>Note:</b> We're also publishing the message to show the loader back again, when the component will unmount or reload.
+
+## Learn more
+
+This project was bootstrapped with [React TypeScript Library Template](https://github.com/janeksmielowski/react-ts-library)
