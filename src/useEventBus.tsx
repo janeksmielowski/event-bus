@@ -1,3 +1,4 @@
+import { getWindow } from 'ssr-window';
 import {
     PublishOptions,
     SubscribeOptions,
@@ -7,11 +8,11 @@ import {
 
 const defaultPublishOptions: PublishOptions = {
     targetOrigin: '*',
-    targetWindow: window
+    targetWindow: getWindow()
 };
 
 const defaultSubscribeOptions: SubscribeOptions = {
-    targetWindow: window
+    targetWindow: getWindow()
 };
 
 const useEventBus = <MessagesMap extends Record<string, any>>() => {
